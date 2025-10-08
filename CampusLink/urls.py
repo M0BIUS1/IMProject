@@ -3,5 +3,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('MyLogin.urls')),  # Connect MyLogin app
+    path('', include('IMProject.Myapp.urls')),  # Connect MyLogin app
 ]

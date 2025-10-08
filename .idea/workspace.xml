@@ -7,7 +7,6 @@
     <list default="true" id="29799fea-26ea-4cb1-8211-396ee70a3035" name="Changes" comment="2nd Initial commit with connection with supabase">
       <change afterPath="$PROJECT_DIR$/IMProject/templates/Myapp/studentDashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyLogin/templates/MyLogin/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/MyLogin/templates/MyLogin/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,6 +122,7 @@
       <workItem from="1759544879922" duration="5601000" />
       <workItem from="1759662251716" duration="780000" />
       <workItem from="1759930421311" duration="8462000" />
+      <workItem from="1759941654339" duration="2978000" />
     </task>
     <task id="LOCAL-00001" summary="1st Iniatial commit">
       <option name="closed" value="true" />
