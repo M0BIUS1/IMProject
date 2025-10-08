@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusLink – Student Dashboard</title>
+  <link rel="stylesheet" href="studentDashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <span>CampusLink</span>
+    </div>
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="MyApplication.html">My Applications</a>
+      <a href="profile.html">Profile</a>
+
+      <a href="#">Notifications</a>
+    </nav>
+    <div class="search-profile">
+      <input type="text" class="top-search" placeholder="Search opportunities...">
+      <img src="profile.jpg" alt="Profile" class="avatar">
+    </div>
+  </header>
+  <main>
+    <div class="dashboard-title">
+      <h1>Discover Your Next <span class="highlight">Opportunity</span></h1>
+      <p>Explore internships, research positions, and part-time jobs tailored for your academic journey.</p>
+    </div>
+    <section class="stats-row">
+      <div class="stat-card"><span class="stat-num">100</span><span class="stat-label">Active Opportunities</span></div>
+      <div class="stat-card"><span class="stat-num">1.5k</span><span class="stat-label">Students Connected</span></div>
+      <div class="stat-card"><span class="stat-num">90%</span><span class="stat-label">Success Rate</span></div>
+      <div class="stat-card"><span class="stat-num">1</span><span class="stat-label">Applications Pending</span></div>
+    </section>
+    <section class="search-filter-row">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search by title, organization, or skills..." />
+      </div>
+      <select class="filter-dropdown">
+        <option>All Categories</option>
+        <option>Internship</option>
+        <option>Research</option>
+        <option>Part-time</option>
+      </select>
+    </section>
+    <section class="opportunity-grid">
+
+      <div class="opp-card">
+        <div class="opp-header">
+          <h3>Software Engineering Intern</h3>
+          <span class="opp-org">Tech Innovations Lab</span>
+        </div>
+        <div class="opp-desc">Join our dynamic team to work on cutting-edge software solutions.</div>
+        <div class="opp-tags">
+          <span>React</span>
+          <span>Node.js</span>
+          <span>TypeScript</span>
+        </div>
+        <div class="opp-details">
+          <span class="opp-type"><i class="fa-solid fa-laptop"></i> Remote</span>
+          <span class="opp-applicants">24 applicants</span>
+          <span class="opp-badge">Today</span>
+        </div>
+        <button class="apply-btn">Apply Now</button>
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-header">
+          <h3>Research Assistant – AI</h3>
+          <span class="opp-org">Computer Science Department</span>
+        </div>
+        <div class="opp-desc">Assist in groundbreaking AI research projects with faculty.</div>
+        <div class="opp-tags">
+          <span>Python</span>
+          <span>Machine Learning</span>
+          <span>Research</span>
+        </div>
+        <div class="opp-details">
+          <span class="opp-type"><i class="fa-solid fa-building-columns"></i> On Campus</span>
+          <span class="opp-applicants">12 applicants</span>
+          <span class="opp-badge">Today</span>
+        </div>
+        <button class="apply-btn">Apply Now</button>
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-header">
+          <h3>Marketing Coordinator</h3>
+          <span class="opp-org">Student Union</span>
+        </div>
+        <div class="opp-desc">Help promote campus events and student activities.</div>
+        <div class="opp-tags">
+          <span>Marketing</span>
+          <span>Social Media</span>
+          <span>Events</span>
+        </div>
+        <div class="opp-details">
+          <span class="opp-type"><i class="fa-solid fa-building-columns"></i> On Campus</span>
+          <span class="opp-applicants">18 applicants</span>
+          <span class="opp-badge">Today</span>
+        </div>
+        <button class="apply-btn">Apply Now</button>
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-header">
+          <h3>Data Science Fellowship</h3>
+          <span class="opp-org">Data Analytics Club</span>
+        </div>
+        <div class="opp-desc">Intensive data science program with industry mentors.</div>
+        <div class="opp-tags">
+          <span>Data Science</span>
+          <span>Analytics</span>
+          <span>Mentorship</span>
+        </div>
+        <div class="opp-details">
+          <span class="opp-type"><i class="fa-solid fa-laptop"></i> Hybrid</span>
+          <span class="opp-applicants">31 applicants</span>
+          <span class="opp-badge">Today</span>
+        </div>
+        <button class="apply-btn">Apply Now</button>
+      </div>
+
+    </section>
+  </main>
+</body>
+</html>

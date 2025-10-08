@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import HttpResponse
 
-
 # Show login page
 def login_view(request):
     if request.method == "POST":
@@ -20,7 +19,9 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect("login")  # redirect to login (or another page)
+
+            # Redirect students to student dashboard
+            return redirect('student_dashboard')  # URL name from your urls.py
         else:
             messages.error(request, "Invalid email or password")
 
@@ -41,7 +42,7 @@ def register_view(request):
             messages.error(request, "Email already registered")
         else:
             # create new user
-            username = email.split("@")[0]  # make username from email
+            username = email.split("@")[0]
             user = User.objects.create_user(username=username, email=email, password=password)
             user.first_name = name
             user.save()
@@ -53,10 +54,15 @@ def register_view(request):
 
 # Home page removed — just redirect or show simple message
 def home_view(request):
-    return HttpResponse("Home page removed. Go to <a href='/login/'>Login</a>")
+    return redirect('login')  # uses the URL name 'login'
+
 
 
 # Logout
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+def student_dashboard_view(request):
+    return render(request, "Myapp/studentDashboard.html")
+
