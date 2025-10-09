@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+import re
 
 # -----------------------
 # Login page
@@ -31,26 +32,59 @@ def login_view(request):
 # -----------------------
 def register_view(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        confirm_password = request.POST.get("confirm_password")
+        name = request.POST.get("name", "").strip()
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
 
-        if password != confirm_password:
-            messages.error(request, "Passwords do not match")
-        elif User.objects.filter(email=email).exists():
-            messages.error(request, "Email already registered")
-        else:
-            # generate a username from email
-            username = email.split("@")[0]
+        errors = {}
 
-            # create user in database
-            user = User.objects.create_user(username=username, email=email, password=password)
-            user.first_name = name
-            user.save()
+        # Required fields
+        if not name:
+            errors['name'] = "Full Name is required"
+        if not email:
+            errors['email'] = "Email is required"
+        if not password:
+            errors['password'] = "Password is required"
+        if not confirm_password:
+            errors['confirm_password'] = "Confirm Password is required"
 
-            messages.success(request, "Account created successfully! Please login.")
-            return redirect("login")
+        # Email format check
+        email_pattern = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
+        if email and not re.match(email_pattern, email):
+            errors['email'] = "Please enter a valid email address"
+
+        # Password strength
+        password_pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$'
+        if password and not re.match(password_pattern, password):
+            errors['password'] = "Password must be 8+ chars, include uppercase, number & symbol"
+
+        # Password confirmation
+        if password and confirm_password and password != confirm_password:
+            errors['confirm_password'] = "Passwords do not match"
+
+        # Check if email already exists
+        if email and User.objects.filter(email=email).exists():
+            errors['email'] = "Email is already registered"
+
+        if errors:
+            # Send errors to template
+            return render(request, "Myapp/register.html", {
+                'errors': errors,
+                'name': name,
+                'email': email,
+            })
+
+        # Generate a username from email
+        username = email.split("@")[0]
+
+        # Create user in database
+        user = User.objects.create_user(username=username, email=email, password=password)
+        user.first_name = name
+        user.save()
+
+        messages.success(request, "Account created successfully! Please login.")
+        return redirect("login")
 
     return render(request, "Myapp/register.html")
 

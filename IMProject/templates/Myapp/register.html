@@ -117,26 +117,45 @@
 
         <div class="input-box">
           <label for="name">Full Name</label>
-          <input type="text" id="name" name="name" placeholder="John Doe" required>
+          <input type="text" id="name" name="name" placeholder="John Doe" required
+                 value="{{ name|default:'' }}">
+          <span id="name-error" class="error-msg" style="color:red;font-size:0.8rem;">
+            {% if errors.name %}{{ errors.name }}{% endif %}
+          </span>
         </div>
+
         <div class="input-box">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="your.email@university.edu" required>
+          <input type="email" id="email" name="email" placeholder="your.email@university.edu" required
+                 value="{{ email|default:'' }}">
+          <span id="email-error" class="error-msg" style="color:red;font-size:0.8rem;">
+            {% if errors.email %}{{ errors.email }}{% endif %}
+          </span>
         </div>
+
         <div class="input-box">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" placeholder="********" required>
+          <span id="password-error" class="error-msg" style="color:red;font-size:0.8rem;">
+            {% if errors.password %}{{ errors.password }}{% endif %}
+          </span>
         </div>
+
         <div class="input-box">
           <label for="confirm_password">Confirm Password</label>
           <input type="password" id="confirm_password" name="confirm_password" placeholder="********" required>
+          <span id="confirm_password-error" class="error-msg" style="color:red;font-size:0.8rem;">
+            {% if errors.confirm_password %}{{ errors.confirm_password }}{% endif %}
+          </span>
         </div>
+
         <button type="submit" class="btn">Register</button>
       </form>
     </div>
   </div>
 
   <script>
+    // Role selection (unchanged)
     const roles = document.querySelectorAll(".role");
     const badge = document.getElementById("roleBadge");
     roles.forEach(role => {
@@ -145,6 +164,36 @@
         role.classList.add("active");
         badge.textContent = role.dataset.role;
       });
+    });
+
+    // Real-time validation
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirm_password');
+
+    const nameError = document.getElementById('name-error');
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
+    const confirmError = document.getElementById('confirm_password-error');
+
+    nameInput.addEventListener('blur', () => {
+        nameError.textContent = nameInput.value.trim() ? '' : 'Full Name is required';
+    });
+
+    emailInput.addEventListener('input', () => {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        emailError.textContent = emailPattern.test(emailInput.value) ? '' : 'Please enter a valid email address';
+    });
+
+    passwordInput.addEventListener('input', () => {
+        const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        passwordError.textContent = strong.test(passwordInput.value) ? '' :
+            'Password must be 8+ chars, include uppercase, number & symbol';
+    });
+
+    confirmInput.addEventListener('input', () => {
+        confirmError.textContent = (confirmInput.value === passwordInput.value) ? '' : 'Passwords do not match';
     });
   </script>
 </body>
