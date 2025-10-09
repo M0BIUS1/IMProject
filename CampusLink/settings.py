@@ -1,18 +1,27 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-import dj_database_url
 from decouple import config
+import dj_database_url
+from dotenv import load_dotenv
 
-# Load .env file
-load_dotenv()
-
+# -----------------------------
+# BASE DIRECTORY
+# -----------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config("SECRET_KEY", default=os.getenv("SECRET_KEY"))
-DEBUG = config("DEBUG", default=(os.getenv("DEBUG") == "True"), cast=bool)
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=os.getenv("ALLOWED_HOSTS", "")).split(",")
+# Load .env from root (same folder as manage.py)
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
+# -----------------------------
+# SECURITY
+# -----------------------------
+SECRET_KEY = config("SECRET_KEY", default="fallback-secret-key")
+DEBUG = config("DEBUG", default=True, cast=bool)
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost").split(",")
+
+# -----------------------------
+# APPLICATIONS
+# -----------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'MyLogin',
+    'IMProject.Myapp.apps.MyappConfig',
 ]
 
 MIDDLEWARE = [
@@ -33,12 +42,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'CampusLink.urls'
+ROOT_URLCONF = 'IMProject.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "IMProject" / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -50,16 +59,33 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'CampusLink.wsgi.application'
+WSGI_APPLICATION = 'IMProject.wsgi.application'
 
-# --- DATABASE FIX ---
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.getenv("DATABASE_URL"),
-        engine="django.db.backends.postgresql_psycopg2"
-    )
-}
+# -----------------------------
+# DATABASE
+# -----------------------------
+DATABASE_URL = config(
+    "DATABASE_URL",
+    default="postgresql://postgres:postgres@localhost:5432/postgres"
+)
 
+# Parse database URL safely
+try:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            engine="django.db.backends.postgresql_psycopg2",
+            conn_max_age=600,
+            ssl_require=False
+        )
+    }
+except Exception as e:
+    print("Error parsing DATABASE_URL:", DATABASE_URL)
+    raise e
+
+# -----------------------------
+# PASSWORD VALIDATION
+# -----------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -67,11 +93,22 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# -----------------------------
+# INTERNATIONALIZATION
+# -----------------------------
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Manila'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+# -----------------------------
+# STATIC FILES
+# -----------------------------
+STATIC_URL = "/static/"
+#STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# -----------------------------
+# DEFAULT AUTO FIELD
+# -----------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
